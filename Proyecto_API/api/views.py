@@ -3,6 +3,8 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views import View
 from .models import *
+import json
+
 
 
 # Create your views here.
@@ -28,6 +30,14 @@ class CompanyView(View):
         
     
     def post(self,request):
+        print(request.body)
+        #esto es para convertir el json en un diccionario
+        jasondata= json.loads(request.body)
+        print("ACA ESTA EL JSON DATA")
+        print(jasondata)
+        #Este es el proceso de la insercion de datos
+        Company.objects.create(name=jasondata['name'],website=jasondata['website'],foundation=jasondata['foundation'])
+        print(jasondata['foundation'])
         datos = {'message':"Success"}
         return JsonResponse(datos)
     
